@@ -34,65 +34,76 @@ const App = () => {
     <div
       style={{
         minHeight: "100vh",
-        padding: "3rem 2rem",
+        padding: "1.5rem 1rem",
         backgroundColor: "#f0f2f5",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        justifyContent: "center",
+        justifyContent: "flex-start", // ⬅️ Push content to the top
         fontFamily: `'Segoe UI', Tahoma, Geneva, Verdana, sans-serif`,
         textAlign: "center",
         color: "#222",
       }}
     >
-      <img
-        src="/images/twelveCelebrity.jpg"
-        alt="Twelve Celebrity"
+      <div
         style={{
-          width: "100px",
-          height: "100px",
-          objectFit: "cover",
-          borderRadius: "50%",
-          boxShadow: "0 6px 16px rgba(0, 0, 0, 0.15)",
-          marginBottom: "1.25rem",
-          transition: "transform 0.3s ease",
-        }}
-        onMouseOver={(e) => (e.currentTarget.style.transform = "scale(1.05)")}
-        onMouseOut={(e) => (e.currentTarget.style.transform = "scale(1)")}
-      />
-
-      <h2
-        style={{
-          fontSize: "1.5rem",
-          fontWeight: 600,
-          marginBottom: "0.5rem",
-          color: "#2c3e50",
+          maxWidth: "400px",
+          width: "100%",
+          marginTop: "2rem", // Small top spacing
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
         }}
       >
-        Twelve Celebrity
-      </h2>
+        <img
+          src="/images/twelveCelebrity.jpg"
+          alt="Twelve Celebrity"
+          style={{
+            width: "100px",
+            height: "100px",
+            objectFit: "cover",
+            borderRadius: "50%",
+            boxShadow: "0 6px 16px rgba(0, 0, 0, 0.15)",
+            marginBottom: "1rem",
+            transition: "transform 0.3s ease",
+          }}
+          onMouseOver={(e) => (e.currentTarget.style.transform = "scale(1.05)")}
+          onMouseOut={(e) => (e.currentTarget.style.transform = "scale(1)")}
+        />
 
-      <p
-        style={{
-          fontSize: "1rem",
-          color: "#555",
-          marginBottom: "0.25rem",
-        }}
-      >
-        🗓️ {currentDate}
-      </p>
+        <h2
+          style={{
+            fontSize: "1.5rem",
+            fontWeight: 600,
+            marginBottom: "0.25rem",
+            color: "#2c3e50",
+          }}
+        >
+          Twelve Celebrity
+        </h2>
 
-      <p
-        style={{
-          fontSize: "1rem",
-          color: "#555",
-          marginBottom: "2rem",
-        }}
-      >
-        ⏰ Heure actuelle : <strong>{currentTime}</strong>
-      </p>
+        <p
+          style={{
+            fontSize: "1rem",
+            color: "#555",
+            marginBottom: "0.25rem",
+          }}
+        >
+          🗓️ {currentDate}
+        </p>
 
-      <BarcodeScanner />
+        <p
+          style={{
+            fontSize: "1rem",
+            color: "#555",
+            marginBottom: "1.5rem",
+          }}
+        >
+          ⏰ Heure actuelle : <strong>{currentTime}</strong>
+        </p>
+
+        <BarcodeScanner />
+      </div>
     </div>
   );
 };
