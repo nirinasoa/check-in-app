@@ -9,9 +9,9 @@ const BarcodeScanner = () => {
 
     Html5Qrcode.getCameras().then((devices) => {
       if (devices && devices.length) {
-        let cameraId = devices[0].id;
+        let cameraId = devices[0]?.id;
 
-        if (devices.length >= 1) cameraId = devices[1].id;
+        if (devices.length >= 1) cameraId = devices[1]?.id;
 
         html5QrCode
           .start(
@@ -43,7 +43,7 @@ const BarcodeScanner = () => {
 
   return (
     <div>
-      <h2>Scanner un code-barres</h2>
+      <h2 style={{ color: "gray", fontSize: "16px" }}>Scanner un code-barres</h2>
       <div id="reader" style={{ width: "300px" }}></div>
       {result && (
         <div>
