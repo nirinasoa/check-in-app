@@ -9,7 +9,9 @@ const BarcodeScanner = () => {
 
     Html5Qrcode.getCameras().then((devices) => {
       if (devices && devices.length) {
-        const cameraId = devices[0].id;
+        let cameraId = devices[0].id;
+
+        if (devices.length >= 1) cameraId = devices[1].id;
 
         html5QrCode
           .start(
