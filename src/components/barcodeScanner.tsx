@@ -1,9 +1,8 @@
 import { Html5Qrcode } from "html5-qrcode";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
 const BarcodeScanner = () => {
   const [result, setResult] = useState(null);
-  const scannerRef = useRef(null);
 
   useEffect(() => {
     const html5QrCode = new Html5Qrcode("reader");
