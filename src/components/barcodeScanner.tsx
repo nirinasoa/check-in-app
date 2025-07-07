@@ -18,12 +18,12 @@ const BarcodeScanner = () => {
               fps: 10, // fréquence de scan
               qrbox: { width: 250, height: 250 },
             },
-            (decodedText: any, decodedResult) => {
+            (decodedText: any) => {
               console.log("ok ok");
               setResult(decodedText); // affichage du résultat
               html5QrCode.stop(); // arrêt du scanner après un scan
             },
-            (errorMessage) => {
+            () => {
               // erreurs silencieuses pendant le scan
             }
           )
