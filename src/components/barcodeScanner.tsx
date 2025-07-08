@@ -7,7 +7,7 @@ interface Props {
 }
 
 const BarcodeScanner = ({ onScan }: Props) => {
-  const [result, setResult] = useState<string | null>(null);
+  const [setResult] = useState<string | null>(null);
 
   useEffect(() => {
     const html5QrCode = new Html5Qrcode("reader");
@@ -22,7 +22,7 @@ const BarcodeScanner = ({ onScan }: Props) => {
           .start(
             cameraId,
             { fps: 10, qrbox: { width: 250, height: 250 } },
-            (decodedText) => {
+            (decodedText: string) => {
               setResult(decodedText);
               onScan(decodedText); // ⬅️ call parent handler
               html5QrCode.stop(); // stop scanning
