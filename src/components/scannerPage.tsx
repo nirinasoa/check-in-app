@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import BarcodeScanner from "./barcodeScanner";
 import { useNavigate } from "react-router-dom";
+import axios from 'axios';
 import "../App.css";
 
 import "../index.css";
@@ -20,7 +21,20 @@ const ScannerPage = () => {
 
   const handleScanResult = (result: string) => {
     // Navigate to result page with result as state
-    navigate("/result", { state: { result } });
+    axios.get('https://kviwvjyteyxzyuzcttxa.supabase.co/rest/v1/student?id_number=eq.12321535245', {
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt2aXd2anl0ZXl4enl1emN0dHhhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTE5MDk5MDMsImV4cCI6MjA2NzQ4NTkwM30.VTNduqNeKdj0F42TQHGANoq1bhdoVjM_hGSnWOEPcwU' // par exemple pour Supabase
+      }
+    })
+      .then((response : any) => {
+        console.log(response)
+        navigate("/result", { state: { result : response.data[0].firstname } });
+      })
+      .catch(error => {
+        console.error(error);
+      })
   };
 
   useEffect(() => {
