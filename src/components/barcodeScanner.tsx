@@ -8,13 +8,12 @@ interface Props {
 
 const BarcodeScanner = ({ onScan }: Props) => {
   const [result, setResult] = useState<any>(null);
-  console.log(result);
 
   useEffect(() => {
     const html5QrCode = new Html5Qrcode("reader");
 
     Html5Qrcode.getCameras().then((devices) => {
-    // onScan("test")
+    // onScan("9501046019304")
 
       if (devices && devices.length) {
         let cameraId = devices[0].id;
@@ -34,6 +33,8 @@ const BarcodeScanner = ({ onScan }: Props) => {
           )
           .catch((err) => {
             console.error("Erreur scanner", err);
+            console.log(result);
+
           });
       }
     });

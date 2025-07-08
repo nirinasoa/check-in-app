@@ -7,6 +7,8 @@ import "../App.css";
 import "../index.css";
 import Banner from "./banner";
 
+const apikey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt2aXd2anl0ZXl4enl1emN0dHhhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTE5MDk5MDMsImV4cCI6MjA2NzQ4NTkwM30.VTNduqNeKdj0F42TQHGANoq1bhdoVjM_hGSnWOEPcwU';
+
 const ScannerPage = () => {
   const [currentTime, setCurrentTime] = useState<string>(new Date().toLocaleTimeString());
   const [currentDate, setCurrentDate] = useState<string>(
@@ -25,17 +27,31 @@ const ScannerPage = () => {
       headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
-        'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt2aXd2anl0ZXl4enl1emN0dHhhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTE5MDk5MDMsImV4cCI6MjA2NzQ4NTkwM30.VTNduqNeKdj0F42TQHGANoq1bhdoVjM_hGSnWOEPcwU' // par exemple pour Supabase
+        'apikey': apikey
       }
     })
-      .then((response : any) => {
-        console.log(response)
+      .then((response: any) => {
         if (response.data.length > 0) {
-          navigate("/result", { state: { result : response.data[0].firstname } });
+          const student = response.data[0];
+          // Post CHECKIN
+          axios.post('https://kviwvjyteyxzyuzcttxa.supabase.co/rest/v1/checkin',
+            {
+              'id_student': student.id
+            },
+            {
+              headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'apikey': apikey
+              }
+            }).then((response1: any) => {
+              console.log(response1)
+              navigate("/result", { state: { result: response.data[0] } });
+            })
 
         } else {
-          navigate("/result", { state: { result : null} });
-          
+          navigate("/result", { state: { result: null } });
+
         }
       })
       .catch(error => {

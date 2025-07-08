@@ -24,16 +24,16 @@ const ResultPage = () => {
       <h2 className="result-title">Résultat du scan</h2>
 
       <p className="result-code">
-        <strong>{result}</strong>
+        <strong>{result.id_number}</strong>
       </p>
 
-      <img src="/images/person.png" alt="Scanned Person" className="profile-image" />
+      <img src={result.picture} alt="Scanned Person" className="profile-image" />
 
       <p className="info-text">
-        <strong>Nom:</strong> Rakoto
+        <strong>Nom:</strong> {result.name}
       </p>
       <p className="info-text">
-        <strong>Prénom:</strong> Nirina
+        <strong>Prénom:</strong> {result.firstname}
       </p>
 
       <div className="button-group">
