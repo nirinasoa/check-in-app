@@ -7,7 +7,8 @@ interface Props {
 }
 
 const BarcodeScanner = ({ onScan }: Props) => {
-  const [setResult] = useState<string | null>(null);
+  const [result, setResult] = useState<any>(null);
+  console.log(result);
 
   useEffect(() => {
     const html5QrCode = new Html5Qrcode("reader");
@@ -16,7 +17,7 @@ const BarcodeScanner = ({ onScan }: Props) => {
       if (devices && devices.length) {
         let cameraId = devices[0].id;
 
-        //if (devices.length >= 1) cameraId = devices[1]?.id;
+        if (devices.length >= 1) cameraId = devices[1]?.id;
 
         html5QrCode
           .start(
