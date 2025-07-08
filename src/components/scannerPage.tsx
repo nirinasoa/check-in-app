@@ -21,8 +21,7 @@ const ScannerPage = () => {
 
   const handleScanResult = (result: string) => {
     // Navigate to result page with result as state
-    console.log(result);
-    axios.get('https://kviwvjyteyxzyuzcttxa.supabase.co/rest/v1/student?id_number=eq.12321535245', {
+    axios.get('https://kviwvjyteyxzyuzcttxa.supabase.co/rest/v1/student?id_number=eq.'+result, {
       headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
@@ -31,7 +30,13 @@ const ScannerPage = () => {
     })
       .then((response : any) => {
         console.log(response)
-        navigate("/result", { state: { result : response.data[0].firstname } });
+        if (response.data.length > 0) {
+          navigate("/result", { state: { result : response.data[0].firstname } });
+
+        } else {
+          navigate("/result", { state: { result : null} });
+          
+        }
       })
       .catch(error => {
         console.error(error);
