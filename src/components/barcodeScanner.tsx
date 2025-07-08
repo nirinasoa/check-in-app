@@ -14,7 +14,7 @@ const BarcodeScanner = ({ onScan }: Props) => {
     const html5QrCode = new Html5Qrcode("reader");
 
     Html5Qrcode.getCameras().then((devices) => {
-    onScan("test")
+    // onScan("test")
 
       if (devices && devices.length) {
         let cameraId = devices[0].id;
