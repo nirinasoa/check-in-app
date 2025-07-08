@@ -7,7 +7,7 @@ interface Props {
 }
 
 const BarcodeScanner = ({ onScan }: Props) => {
-  const [setResult] = useState<any>(null);
+  const [result, setResult] = useState<string | null>(null);
 
   useEffect(() => {
     const html5QrCode = new Html5Qrcode("reader");
@@ -16,7 +16,7 @@ const BarcodeScanner = ({ onScan }: Props) => {
       if (devices && devices.length) {
         let cameraId = devices[0].id;
 
-        if (devices.length >= 1) cameraId = devices[1]?.id;
+        //if (devices.length >= 1) cameraId = devices[1]?.id;
 
         html5QrCode
           .start(
@@ -40,7 +40,11 @@ const BarcodeScanner = ({ onScan }: Props) => {
     };
   }, []);
 
-  return <div id="reader" style={{ width: "300px" }}></div>;
+  return (
+    <>
+      <div id="reader" style={{ width: "300px" }}></div>
+    </>
+  );
 };
 
 export default BarcodeScanner;
