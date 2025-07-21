@@ -41,7 +41,7 @@ const ScannerPage = () => {
 
           const start = `${yyyy}-${mm}-${dd}T00:00:00`;
           const end = `${yyyy}-${mm}-${dd}T23:59:59`;
-          axios.get(`https://kviwvjyteyxzyuzcttxa.supabase.co/rest/v1/checkin?created_at=gte.${start}&created_at=lte.${end}`, {
+          axios.get(`https://kviwvjyteyxzyuzcttxa.supabase.co/rest/v1/checkin?created_at=gte.${start}&created_at=lte.${end}&id_student=eq.${student.id}`, {
             headers: {
               'Content-Type': 'application/json',
               'Accept': 'application/json',
