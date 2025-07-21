@@ -47,7 +47,7 @@ const Banner = () => {
           textAlign: "center",
         }}
       >
-        Checking System.
+        Checking System...
       </p>
     </div>
   );

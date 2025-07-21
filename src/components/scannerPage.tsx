@@ -23,7 +23,7 @@ const ScannerPage = () => {
 
   const handleScanResult = (result: string) => {
     // Navigate to result page with result as state
-    axios.get('https://kviwvjyteyxzyuzcttxa.supabase.co/rest/v1/student?id_number=eq.'+result, {
+    axios.get('https://kviwvjyteyxzyuzcttxa.supabase.co/rest/v1/student?id_number=eq.' + result, {
       headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
@@ -33,21 +33,42 @@ const ScannerPage = () => {
       .then((response: any) => {
         if (response.data.length > 0) {
           const student = response.data[0];
-          // Post CHECKIN
-          axios.post('https://kviwvjyteyxzyuzcttxa.supabase.co/rest/v1/checkin',
-            {
-              'id_student': student.id
-            },
-            {
-              headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-                'apikey': apikey
-              }
-            }).then((response1: any) => {
-              console.log(response1)
-              navigate("/result", { state: { result: response.data[0] } });
-            })
+          // Check if exist 
+          const today = new Date();
+          const yyyy = today.getFullYear();
+          const mm = String(today.getMonth() + 1).padStart(2, '0');
+          const dd = String(today.getDate()).padStart(2, '0');
+
+          const start = `${yyyy}-${mm}-${dd}T00:00:00`;
+          const end = `${yyyy}-${mm}-${dd}T23:59:59`;
+          axios.get(`https://kviwvjyteyxzyuzcttxa.supabase.co/rest/v1/checkin?created_at=gte.${start}&created_at=lte.${end}`, {
+            headers: {
+              'Content-Type': 'application/json',
+              'Accept': 'application/json',
+              'apikey': apikey
+            }
+          }).then((responseCheck : any) => {
+            if (responseCheck.data.length > 0) {
+              alert("L'édudiant est déjà checké !")
+            } else {
+              // Post CHECKIN
+              axios.post('https://kviwvjyteyxzyuzcttxa.supabase.co/rest/v1/checkin',
+                {
+                  'id_student': student.id
+                },
+                {
+                  headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'apikey': apikey
+                  }
+                }).then((response1: any) => {
+                  console.log(response1)
+                  navigate("/result", { state: { result: response.data[0] } });
+                })
+            }
+          })
+          
 
         } else {
           navigate("/result", { state: { result: null } });
