@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
+import Input from '@mui/joy/Input';
 import BarcodeScanner from "./barcodeScanner";
+import { Button } from "@mui/joy";
 import { useNavigate } from "react-router-dom";
 import axios from 'axios';
 import "../App.css";
@@ -20,6 +22,7 @@ const ScannerPage = () => {
     })
   );
   const navigate = useNavigate();
+  const [manualInputCode, setManualInputCode] = useState<string>();
 
   const handleScanResult = (result: string) => {
     // Navigate to result page with result as state
@@ -115,6 +118,11 @@ const ScannerPage = () => {
       {/* <div style={{width : '250px', height: '250px', backgroundColor: '#000000'}}>
         Lorem ipsum dolor sit amet, consectetur adipisicing elit. Harum, ratione sit facilis, voluptas ad corporis magnam facere rem molestias nemo eius nobis! Blanditiis ab, in at fugiat hic reprehenderit nulla!
       </div> */}
+
+      <div style={{marginTop : '.6rem'}}>
+        <Input type="number" onChange={(val) => {setManualInputCode(val.target.value)}} style={{marginBottom : '.6rem'}} placeholder="Code..." />
+        <Button onClick={() => {if (manualInputCode) handleScanResult(manualInputCode)}}>Valider</Button>
+      </div>
     </div>
   );
 };
