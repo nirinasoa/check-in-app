@@ -112,6 +112,9 @@ const ScannerPage = () => {
       </p>
 
       <BarcodeScanner onScan={handleScanResult} />
+      {/* <div style={{width : '250px', height: '250px', backgroundColor: '#000000'}}>
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Harum, ratione sit facilis, voluptas ad corporis magnam facere rem molestias nemo eius nobis! Blanditiis ab, in at fugiat hic reprehenderit nulla!
+      </div> */}
     </div>
   );
 };

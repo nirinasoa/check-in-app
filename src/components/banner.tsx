@@ -5,7 +5,6 @@ const Banner = () => {
       style={{
         maxWidth: "400px",
         width: "100%",
-        marginTop: "2rem",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
