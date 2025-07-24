@@ -23,7 +23,9 @@
   justify-content: center;
   background-color: white;
   top: 0;
+  bottom: 0;
   left: 0;
+  align-items: center;
   width: 100%;
 }
 .loader {

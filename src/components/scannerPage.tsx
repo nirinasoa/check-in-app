@@ -23,8 +23,10 @@ const ScannerPage = () => {
   );
   const navigate = useNavigate();
   const [manualInputCode, setManualInputCode] = useState<string>();
-
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+ 
   const handleScanResult = (result: string) => {
+    setIsLoading(true);
     // Navigate to result page with result as state
     axios.get('https://kviwvjyteyxzyuzcttxa.supabase.co/rest/v1/student?id_number=eq.' + result, {
       headers: {
@@ -67,7 +69,8 @@ const ScannerPage = () => {
                   }
                 }).then((response1: any) => {
                   console.log(response1)
-                  navigate("/result", { state: { result: response.data[0] } });
+                  setIsLoading(false);
+                  navigate("/result", { state: { result: response.data[0], time : currentTime } });
                 })
             }
           })
@@ -123,9 +126,12 @@ const ScannerPage = () => {
         <Input type="number" onChange={(val) => {setManualInputCode(val.target.value)}} style={{marginBottom : '.6rem'}} placeholder="Code..." />
         <Button onClick={() => {if (manualInputCode) handleScanResult(manualInputCode)}}>Valider</Button>
       </div>
-      <div className="container-loader">
-        <div className="loader"></div>
-      </div>
+      {isLoading ? (
+        <div className="container-loader">
+          <div className="loader"></div>
+        </div>
+      ) : <></>}
+     
     </div>
   );
 };

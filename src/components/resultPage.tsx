@@ -7,6 +7,7 @@ const ResultPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const result = location.state?.result;
+  const time = location.state?.time;
 
   if (!result) {
     return (
@@ -35,12 +36,15 @@ const ResultPage = () => {
       <p className="info-text">
         <strong>Prénom:</strong> {result.firstname}
       </p>
+      <p className="info-text">
+        <strong>Heure:</strong> {time}
+      </p>
 
       <div className="button-group">
-        <Button onClick={() => navigate("/")}>Scanner de nouveau</Button>
         <Button color="danger" onClick={() => navigate("/")}>
           Annuler
         </Button>
+        <Button onClick={() => navigate("/")}>Scanner de nouveau</Button>
       </div>
     </div>
   );
