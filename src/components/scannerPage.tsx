@@ -56,6 +56,7 @@ const ScannerPage = () => {
             if (responseCheck.data.length > 0) {
               setIsLoading(false);
               alert("L'édudiant est déjà checké !")
+              window.location.reload();
             } else {
               // Post CHECKIN
               axios.post('https://kviwvjyteyxzyuzcttxa.supabase.co/rest/v1/checkin',
