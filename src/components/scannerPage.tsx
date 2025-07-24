@@ -54,6 +54,7 @@ const ScannerPage = () => {
             }
           }).then((responseCheck : any) => {
             if (responseCheck.data.length > 0) {
+              setIsLoading(false);
               alert("L'édudiant est déjà checké !")
             } else {
               // Post CHECKIN
