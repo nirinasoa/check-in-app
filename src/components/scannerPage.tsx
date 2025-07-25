@@ -26,6 +26,7 @@ const ScannerPage = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
  
   const handleScanResult = (result: string) => {
+    window.scrollTo(0, 0)
     setIsLoading(true);
     // Navigate to result page with result as state
     axios.get('https://kviwvjyteyxzyuzcttxa.supabase.co/rest/v1/student?id_number=eq.' + result, {
@@ -126,7 +127,7 @@ const ScannerPage = () => {
 
       <div style={{marginTop : '.6rem'}}>
         <Input type="number" onChange={(val) => {setManualInputCode(val.target.value)}} style={{marginBottom : '.6rem'}} placeholder="Code..." />
-        <Button onClick={() => {if (manualInputCode) handleScanResult(manualInputCode)}}>Valider</Button>
+        <Button onClick={() => {window.scrollTo(0, 0);if (manualInputCode) handleScanResult(manualInputCode)}}>Valider</Button>
       </div>
       {isLoading ? (
         <div className="container-loader">
