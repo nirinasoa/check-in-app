@@ -1,9 +1,12 @@
 
-import axios from 'axios';
+// import axios from 'axios';
 import { useEffect, useState } from 'react';
 import Banner from './banner';
+import { createClient } from '@supabase/supabase-js'
 
 const apikey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt2aXd2anl0ZXl4enl1emN0dHhhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTE5MDk5MDMsImV4cCI6MjA2NzQ4NTkwM30.VTNduqNeKdj0F42TQHGANoq1bhdoVjM_hGSnWOEPcwU';
+const supabase = createClient('https://kviwvjyteyxzyuzcttxa.supabase.co', apikey)
+
 
 const HistoryPage = () => {
 
@@ -14,56 +17,61 @@ const HistoryPage = () => {
     useEffect(() => {
         setIsLoading(true);
 
-        axios.get('https://kviwvjyteyxzyuzcttxa.supabase.co/rest/v1/student', {
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-                'apikey': apikey
-            }
-        }).then((response: any) => {
+        // supabase.from('student')    
+        //     .select(`
+        //             id,
+        //             name,
+        //             checkin (
+        //                 id_student,
+        //                 created_at
+        //             )
+        //         `)
+        //     .eq('id', 44001)
+        //     .order('created_at', {referencedTable : 'checkin', ascending : false})
+        //     // .gte('created_at', '2025-07-29T00:00:00')
+        //     // .lte('created_at', '2025-07-29T23:59:59')
+        //     .limit(1)
+        //     .limit(1, {referencedTable: 'checkin'})
+        //     .then(response => {
+        //         console.log('mahita', response)
+        //     })
+
+        supabase.from('student')
+         .select(`
+                    id,
+                    name,
+                    firstname,
+                    picture,
+                    checkin (
+                        id_student,
+                        created_at
+                    )
+                `)
+        .order('created_at', {referencedTable : 'checkin', ascending : false})
+        .limit(1, {referencedTable: 'checkin'})
+        .then((response: any) => {
             setIsLoading(false);
             if (response.data.length > 0) {
 
-                // setStudents(response.data)
-
-                let newStudent = response.data;
+                const students = []
                 for (let i = 0; i < response.data.length; i++) {
-                    axios.get(`https://kviwvjyteyxzyuzcttxa.supabase.co/rest/v1/checkin?id_student=eq.${response.data[i].id}&created_at=gte.${date}T00:00:00&created_at=lte.${date}T23:59:00&limit=1`,
-                        {
-                            headers: {
-                                'Content-Type': 'application/json',
-                                'Accept': 'application/json',
-                                'apikey': apikey
-                            }
+                    let time = '';
+
+                    if (response.data[i].checkin.length > 0) {
+                        const dateC = new Date(response.data[i].checkin[0].created_at);
+                        if (dateC.toISOString().split('T')[0] == date) {
+                            // Formatter en heure et minute, fuseau GMT+3 (Africa/Nairobi ou Indian/Antananarivo)
+                            time = dateC.toLocaleTimeString('fr-FR', {
+                                hour: '2-digit',
+                                minute: '2-digit',
+                                timeZone: 'Indian/Antananarivo', // GMT+3
+                            });
                         }
-                    )
-                        .then((response1: any) => {
-                            if (response1.data.length > 0) {
-                                newStudent = newStudent.map((s: any) => {
-                                    if (s.id == response.data[i].id) {
-                                        
-                                        const date = new Date(response1.data[0].created_at);
-
-                                        // Formatter en heure et minute, fuseau GMT+3 (Africa/Nairobi ou Indian/Antananarivo)
-                                        const time = date.toLocaleTimeString('fr-FR', {
-                                            hour: '2-digit',
-                                            minute: '2-digit',
-                                            timeZone: 'Indian/Antananarivo', // GMT+3
-                                        });
-
-                                        s.time = time;
-                                    }
-                                    return s;
-                                })
-                            } else {
-                                 
-                            }
-                            setStudents(newStudent)
-
-                        })
+                    }
+                    students.push({...response.data[i], time})
                 }
-                // setStudents(newStudent)
-
+                setStudents(students.sort((a, b) => a.time.localeCompare(b.time)))
+            
             }
         })
     }, [date])
@@ -83,6 +91,7 @@ const HistoryPage = () => {
                     <input
                         type="date"
                         onChange={(e) => handleChangeDate(e.target.value)}
+                        value={date}
                         className="px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
                 </div>
@@ -95,7 +104,7 @@ const HistoryPage = () => {
                         <div className="flex items-center space-x-4">
                             <img src={student.picture} alt="Photo" className="w-16 h-16 rounded-full object-cover" />
                             <div>
-                                <p className="text-md font-semibold">{student.name}</p>
+                                <p className="text-md font-semibold truncate w-40">{student.name}</p>
                                 <p className="text-gray-500">{student.firstname}</p>
                             </div>
                         </div>
